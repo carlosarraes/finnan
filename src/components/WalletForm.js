@@ -98,14 +98,14 @@ class WalletForm extends Component {
     const { currencies } = this.props;
     const { value, description, currency, method, tag, editMode } = this.state;
     return (
-      <section className="flex justify-between my-2 bg-slate-900 p-2 shadow-lg shadow-slate-900/20">
+      <section className="flex flex-wrap gap-2 last:justify-between my-2 bg-slate-700 p-4 shadow-lg shadow-slate-700/30 xl:flex-row xl:flex-nowrap">
         <input
           type="text"
           placeholder="Valor da despesa"
           name="value"
           data-testid="value-input"
           value={ value }
-          className="input input-bordered input-secondary max-w-xs"
+          className="input input-bordered input-secondary flex-grow"
           onChange={ this.handleChange }
         />
         <input
@@ -113,14 +113,14 @@ class WalletForm extends Component {
           placeholder="Descrição"
           name="description"
           data-testid="description-input"
-          className="input input-bordered input-secondary max-w-xs"
+          className="input input-bordered input-secondary flex-grow"
           value={ description }
           onChange={ this.handleChange }
         />
         <select
           name="currency"
           data-testid="currency-input"
-          className="select select-secondary max-w-xs"
+          className="select select-secondary flex-grow"
           onChange={ this.handleChange }
           value={ currency }
         >
@@ -134,7 +134,7 @@ class WalletForm extends Component {
           name="method"
           data-testid="method-input"
           onChange={ this.handleChange }
-          className="select select-secondary max-w-xs"
+          className="select select-secondary flex-grow"
           value={ method }
         >
           <option value="Dinheiro">Dinheiro</option>
@@ -144,7 +144,7 @@ class WalletForm extends Component {
         <select
           name="tag"
           data-testid="tag-input"
-          className="select select-secondary max-w-xs"
+          className="select select-secondary flex-grow"
           onChange={ this.handleChange }
           value={ tag }
         >
@@ -154,7 +154,7 @@ class WalletForm extends Component {
           <option value="Transporte">Transporte</option>
           <option value="Saúde">Saúde</option>
         </select>
-        <button type="button" onClick={ this.handleClick } className="btn btn-secondary">
+        <button type="button" onClick={ this.handleClick } className="btn btn-secondary flex-grow">
           {editMode ? 'Editar despesa' : 'Adicionar despesa'}
         </button>
       </section>

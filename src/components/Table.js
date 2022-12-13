@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { BiHappyBeaming } from 'react-icons/bi';
+import { AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai';
 import { editMode, handleExpense } from '../redux/actions';
+import formatCurrency from '../utils';
 
 class Table extends Component {
   handleDelete = (_e, id) => {
@@ -15,6 +18,14 @@ class Table extends Component {
     dispatch(editMode(id));
   };
 
+  handleBadge = (str) => {
+    if (str === 'Alimentação') return 'badge';
+    if (str === 'Trabalho') return 'badge badge-primary';
+    if (str === 'Lazer') return 'badge badge-secondary';
+    if (str === 'Transporte') return 'badge badge-accent';
+    if (str === 'Saúde') return 'badge badge-ghost';
+  };
+
   render() {
     const { expenses } = this.props;
     const showTd = expenses.map(({
@@ -26,53 +37,58 @@ class Table extends Component {
       value,
       exchangeRates,
     }) => (
-      <tr key={ id }>
+      <tr key={ id } className="hover">
         <td>{description}</td>
-        <td>{tag}</td>
+        <td>
+          <span className={ this.handleBadge(tag) }>
+            {tag}
+          </span>
+        </td>
         <td>{method}</td>
         <td>{Number(value).toFixed(2)}</td>
         <td>{exchangeRates[currency].name}</td>
-        <td>{Number(exchangeRates[currency].ask).toFixed(2)}</td>
-        <td>{Number(value * exchangeRates[currency].ask).toFixed(2)}</td>
+        <td>{formatCurrency(exchangeRates[currency].ask)}</td>
+        <td>{formatCurrency(value * exchangeRates[currency].ask)}</td>
         <td>Real</td>
         <td>
-          <button
-            data-testid="edit-btn"
-            type="button"
-            onClick={ (e) => this.handleEdit(e, id) }
-          >
-            Edit
-          </button>
-          <button
-            data-testid="delete-btn"
-            type="button"
-            onClick={ (e) => this.handleDelete(e, id) }
-          >
-            Delete
-          </button>
+          <div className="flex justify-center gap-6">
+            <AiOutlineEdit className="text-xl self-center text-yellow-500 cursor-pointer" onClick={ (e) => this.handleEdit(e, id) } />
+            <AiOutlineDelete className="text-xl self-center text-red-500 cursor-pointer" onClick={ (e) => this.handleDelete(e, id) } />
+          </div>
         </td>
       </tr>
     ));
 
+    if (!showTd.length) {
+      return (
+        <section className="flex flex-col justify-center gap-8 items-center mt-8">
+          <h2 className="text-2xl">Cadastre sua primeira despesa!</h2>
+          <BiHappyBeaming className="text-8xl text-indigo-300" />
+        </section>
+      );
+    }
+
     return (
-      <table>
-        <thead>
-          <tr>
-            <th>Descrição</th>
-            <th>Tag</th>
-            <th>Método de pagamento</th>
-            <th>Valor</th>
-            <th>Moeda</th>
-            <th>Câmbio utilizado</th>
-            <th>Valor convertido</th>
-            <th>Moeda de conversão</th>
-            <th>Editar/Excluir</th>
-          </tr>
-        </thead>
-        <tbody>
-          {showTd}
-        </tbody>
-      </table>
+      <section className="overflow-x-auto">
+        <table className="table table-zebra w-full">
+          <thead>
+            <tr>
+              <th>Descrição</th>
+              <th>Tag</th>
+              <th>Método de pagamento</th>
+              <th>Valor</th>
+              <th>Moeda</th>
+              <th>Câmbio utilizado</th>
+              <th>Valor convertido</th>
+              <th>Moeda de conversão</th>
+              <th>Editar/Excluir</th>
+            </tr>
+          </thead>
+          <tbody>
+            {showTd}
+          </tbody>
+        </table>
+      </section>
     );
   }
 }
