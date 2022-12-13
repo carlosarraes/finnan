@@ -9,7 +9,7 @@ class Header extends Component {
     const total = expenses.reduce((acc, curr) => (
       acc + (curr.value * curr.exchangeRates[curr.currency].ask)), 0);
     return (
-      <section className="flex w-full justify-between">
+      <section className="flex w-full justify-between p-2">
         <h1 className="text-4xl text-center text-indigo-600 self-center">Finnan</h1>
         <section>
           <span data-testid="email-field">
