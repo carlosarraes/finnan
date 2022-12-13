@@ -1,3 +1,5 @@
+// API https://economia.awesomeapi.com.br/json/all
+
 const actionLogin = (email) => ({
   type: 'LOGIN',
   payload: email,
