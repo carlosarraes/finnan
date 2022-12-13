@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import formatCurrency from '../utils';
 
 class Header extends Component {
   render() {
@@ -8,12 +9,24 @@ class Header extends Component {
     const total = expenses.reduce((acc, curr) => (
       acc + (curr.value * curr.exchangeRates[curr.currency].ask)), 0);
     return (
-      <section>
-        <span data-testid="email-field">{email}</span>
-        <div>
-          <span data-testid="total-field">{total.toFixed(2)}</span>
-          <span data-testid="header-currency-field"> BRL</span>
-        </div>
+      <section className="flex w-full justify-between">
+        <h1 className="text-4xl text-center text-indigo-600 self-center">Finnan</h1>
+        <section>
+          <span data-testid="email-field">
+            Usuário:
+            {' '}
+            <span className="text-indigo-600 font-medium">
+              {email || 'test@test.com'}
+            </span>
+          </span>
+          <div>
+            <span data-testid="total-field">
+              Total:
+              {' '}
+              {formatCurrency(total)}
+            </span>
+          </div>
+        </section>
       </section>
     );
   }
